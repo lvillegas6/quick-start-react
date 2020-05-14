@@ -2,7 +2,7 @@ sudo: required
 language: node_js
 env:
   global:
-    - RELEASE_NAME=build
+    - RELEASE_NAME=quick-start
 node_js:
   - "stable"
 cache:
@@ -15,6 +15,7 @@ script:
 before_deploy:
 - tar -czf $RELEASE_NAME-$TRAVIS_TAG.tar.gz $RELEASE_NAME
 - tar tzf $RELEASE_NAME-$TRAVIS_TAG.tar.gz
+- zip -r $RELEASE_NAME-$TRAVIS_TAG.zip $RELEASE_NAME
 - ls -al
 deploy:
   provider: releases
