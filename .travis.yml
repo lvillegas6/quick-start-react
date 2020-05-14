@@ -1,0 +1,27 @@
+sudo: required
+language: node_js
+env:
+  global:
+    - RELEASE_NAME=build
+node_js:
+  - "stable"
+cache:
+directories:
+  - node_modules
+before_install:
+  - npm ci
+script:
+  - npm run build
+before_deploy:
+- tar -czf $RELEASE_NAME-$TRAVIS_TAG.tar.gz $RELEASE_NAME
+- tar tzf $RELEASE_NAME-$TRAVIS_TAG.tar.gz
+- ls -al
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: 
+    - $RELEASE_NAME-$TRAVIS_TAG.tar.gz
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: Boogst/quick-start-react
